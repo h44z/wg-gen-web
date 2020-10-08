@@ -29,7 +29,7 @@ build:
   image: docker:latest
   script:
     - docker info
-    - docker build --build-arg COMMIT=${CI_COMMIT_SHA} --network br_docker --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA} .
+    - docker build --build-arg COMMIT=${CI_COMMIT_SHA} --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA} .
 
 push:
   stage: push docker hub
@@ -37,5 +37,7 @@ push:
   only:
     - master
   script:
-    - echo ${REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY}
+    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY}
     - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+    - docker tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA} ${CI_REGISTRY_IMAGE}:latest
+    - docker push ${CI_REGISTRY_IMAGE}:latest
