@@ -2,7 +2,6 @@ package fake
 
 import (
 	"gitlab.127-0-0-1.fr/vx3r/wg-gen-web/model"
-	"gitlab.127-0-0-1.fr/vx3r/wg-gen-web/util"
 	"golang.org/x/oauth2"
 	"time"
 )
@@ -22,10 +21,7 @@ func (o *Fake) CodeUrl(state string) string {
 
 // Exchange exchange code for Oauth2 token
 func (o *Fake) Exchange(code string) (*oauth2.Token, error) {
-	rand, err := util.GenerateRandomString(32)
-	if err != nil {
-		return nil, err
-	}
+	rand := "fake1234567890123456789012345678"
 
 	return &oauth2.Token{
 		AccessToken:  rand,
